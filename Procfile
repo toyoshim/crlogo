@@ -1,1 +1,1 @@
-app: crlogo
+web: crlogo
