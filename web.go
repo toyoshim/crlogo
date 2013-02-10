@@ -7,15 +7,11 @@ import (
 )
 
 func main() {
-  http.HandleFunc("/", hello)
+  http.Handle("/tmalib/", http.StripPrefix("/tmalib/", http.FileServer(http.Dir("tmalib"))))
+  http.Handle("/", http.RedirectHandler("/tmalib/mozapp/chrome_logo.html", 301))
   fmt.Println("listening...")
   err := http.ListenAndServe(":" + os.Getenv("PORT"), nil)
   if err != nil {
     panic(err)
   }
 }
-
-func hello(res http.ResponseWriter, req *http.Request) {
-  fmt.Fprintln(res, "hello, world")
-}
-
