@@ -5,6 +5,7 @@
   "icons": {
     "256": "/tmalib/mozapp/chrome_logo.png"
   },
+  "fullscreen": "true",
   "developer": {
     "name": "Takashi Toyoshima",
     "url": "http://toyoshima-house.net"
