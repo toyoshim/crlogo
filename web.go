@@ -4,6 +4,7 @@ import (
   "fmt"
   "net/http"
   "os"
+  "strings"
   "time"
 )
 
@@ -34,12 +35,12 @@ func Log(handler http.Handler) http.Handler {
     duration := time.Now().Sub(start)
     fmt.Printf("%s %s %s %s %s %s %s %d %d %f %s - %s\n",
         time.Now().Format(time.RFC3339),
-        r.Header["Referer"][0],
+        strings.Join(r.Header["Referer"], ","),
         r.Method,
         r.Host,
         r.URL.Path,
         r.Proto,
-        r.Header["Accept-Language"][0],
+        strings.Join(r.Header["Accept-Language"], ","),
         writer.status,
         writer.length,
         duration.Seconds() * 1000,
