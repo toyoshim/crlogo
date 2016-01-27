@@ -51,7 +51,7 @@ func Log(handler http.Handler) http.Handler {
 func main() {
   http.Handle("/tmalib/", http.StripPrefix("/tmalib/", http.FileServer(http.Dir("tmalib"))))
   http.Handle("/", http.RedirectHandler("/tmalib/mozapp/chrome_logo.html", 301))
-  fmt.Println("listening...")
+  fmt.Println("listening on port " + os.Getenv("PORT") + "...")
   err := http.ListenAndServe(":" + os.Getenv("PORT"), Log(http.DefaultServeMux))
   if err != nil {
     panic(err)
