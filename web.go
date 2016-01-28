@@ -1,60 +1,22 @@
 package main
 
 import (
-  "fmt"
-  "net/http"
-  "os"
-  "strings"
-  "time"
+	"fmt"
+	"net/http"
+	"os"
+
+	"github.com/toyoshim/gomolog"
 )
 
-type wrappedWriter struct {
-  http.ResponseWriter
-  status int
-  length int
-}
-
-func (w *wrappedWriter) WriteHeader(status int) {
-  w.status = status
-  w.ResponseWriter.WriteHeader(status)
-}
-
-func (w *wrappedWriter) Write(b []byte) (int, error) {
-  if w.status == 0 {
-    w.status = 200
-  }
-  w.length = len(b)
-  return w.ResponseWriter.Write(b)
-}
-
-func Log(handler http.Handler) http.Handler {
-  return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-    writer := wrappedWriter{ w, 0, 0 }
-    start := time.Now()
-    handler.ServeHTTP(&writer, r)
-    duration := time.Now().Sub(start)
-    fmt.Printf("%s %s %s %s %s %s %s %d %d %f %s - %s\n",
-        time.Now().Format(time.RFC3339),
-        strings.Join(r.Header["Referer"], ","),
-        r.Method,
-        r.Host,
-        r.URL.Path,
-        r.Proto,
-        strings.Join(r.Header["Accept-Language"], ","),
-        writer.status,
-        writer.length,
-        duration.Seconds() * 1000,
-        r.RemoteAddr,
-        r.UserAgent())
-  })
-}
-
 func main() {
-  http.Handle("/tmalib/", http.StripPrefix("/tmalib/", http.FileServer(http.Dir("tmalib"))))
-  http.Handle("/", http.RedirectHandler("/tmalib/mozapp/chrome_logo.html", 301))
-  fmt.Println("listening on port " + os.Getenv("PORT") + "...")
-  err := http.ListenAndServe(":" + os.Getenv("PORT"), Log(http.DefaultServeMux))
-  if err != nil {
-    panic(err)
-  }
+	log := gomolog.Open(os.Getenv("MONGOLAB_URI"), "log")
+	defer log.Close()
+
+	http.Handle("/tmalib/", http.StripPrefix("/tmalib/", http.FileServer(http.Dir("tmalib"))))
+	http.Handle("/", http.RedirectHandler("/tmalib/mozapp/chrome_logo.html", 301))
+	fmt.Println("listening on port " + os.Getenv("PORT") + "...")
+	err := http.ListenAndServe(":"+os.Getenv("PORT"), log.Logger())
+	if err != nil {
+		panic(err)
+	}
 }
