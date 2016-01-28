@@ -1,7 +1,10 @@
 {
 	"ImportPath": "crlogo",
 	"GoVersion": "go1.5",
-	"Deps": [
+    "Packages": [
+        "./..."
+    ],
+    "Deps": [
 		{
 			"ImportPath": "github.com/toyoshim/gomolog",
 			"Rev": "3de8ab15dcc5b404eb6641ee5ae93feba40878ef"
