@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"os"
 
-	"crlogo/Godeps/_workspace/src/github.com/toyoshim/gomolog"
+	"github.com/toyoshim/gomolog"
 )
 
 func main() {
