@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"time"
 
-	"crlogo/Godeps/_workspace/src/gopkg.in/mgo.v2"
+	"gopkg.in/mgo.v2"
 	"gopkg.in/tomb.v2"
 )
 

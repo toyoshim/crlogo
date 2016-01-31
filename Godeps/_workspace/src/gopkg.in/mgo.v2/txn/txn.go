@@ -14,8 +14,8 @@ import (
 	"strings"
 	"sync"
 
-	"crlogo/Godeps/_workspace/src/gopkg.in/mgo.v2"
-	"crlogo/Godeps/_workspace/src/gopkg.in/mgo.v2/bson"
+	"gopkg.in/mgo.v2"
+	"gopkg.in/mgo.v2/bson"
 
 	crand "crypto/rand"
 	mrand "math/rand"
